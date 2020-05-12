@@ -1,0 +1,136 @@
+package View;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import java.awt.Font;
+import javax.swing.SwingConstants;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.Scanner;
+import java.awt.event.ActionEvent;
+import javax.swing.JTextPane;
+import java.awt.TextArea;
+import java.awt.Color;
+import javax.swing.JRadioButton;
+import java.awt.Panel;
+import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.JTextArea;
+import javax.swing.border.TitledBorder;
+
+public class Speech2TextEditorView {
+
+	private JFrame frame;	
+	
+	// The Panels
+	private JPanel sidePanel;
+	private JPanel mainPanel;
+	private OpenDocPanel openDocPanel;
+	
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Speech2TextEditorView window = new Speech2TextEditorView();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public Speech2TextEditorView() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	public void setPanel(JPanel panel) {
+		mainPanel.setVisible(false);
+		openDocPanel.setVisible(false);
+		
+		panel.setVisible(true);
+		System.out.println("DID IT");
+	}
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 758, 530);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		
+		// Panels Initialization
+		openDocPanel = new OpenDocPanel();
+		openDocPanel.setBounds(214, 6, 538, 485);
+		frame.getContentPane().add(openDocPanel);
+		openDocPanel.setVisible(false);
+		TextArea startingTextArea = new TextArea();
+		
+		
+		sidePanel = new JPanel();
+		sidePanel.setBackground(new Color(0, 128, 128));
+		sidePanel.setBounds(6, 6, 196, 496);
+		frame.getContentPane().add(sidePanel);
+		sidePanel.setLayout(null);
+		
+		JButton btnNewButton = new JButton("Open Document");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String path = startingTextArea.getText();
+				String contents = "";
+				try {
+				      File myObj = new File(path);
+				      Scanner myReader = new Scanner(myObj);
+				      while (myReader.hasNextLine()) {
+				    	  String data = myReader.nextLine();
+				          contents += data;
+				          contents += "\n"
+				      }
+				      myReader.close();
+				}catch (FileNotFoundException err) {
+					 System.out.println("An error occurred.");
+				     err.printStackTrace();
+				}
+				setPanel(openDocPanel);
+				openDocPanel.setText(contents);
+			}
+		});
+		btnNewButton.setBounds(21, 79, 146, 29);
+		sidePanel.add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("Edit Document");
+		btnNewButton_1.setBounds(21, 127, 136, 29);
+		sidePanel.add(btnNewButton_1);
+		
+		mainPanel = new JPanel();
+		mainPanel.setBackground(UIManager.getColor("MenuBar.disabledForeground"));
+		mainPanel.setBounds(214, 6, 538, 496);
+		frame.getContentPane().add(mainPanel);
+		mainPanel.setLayout(null);
+		mainPanel.setVisible(true);
+		
+		
+		
+		
+		
+		
+		startingTextArea.setText("Hi Im Dave");
+		startingTextArea.setBounds(0, 0, 538, 496);
+		mainPanel.add(startingTextArea);		
+		
+	}
+}

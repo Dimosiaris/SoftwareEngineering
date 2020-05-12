@@ -1,0 +1,25 @@
+package View;
+
+import javax.swing.JPanel;
+import java.awt.Color;
+import javax.swing.JTextArea;
+
+public class OpenDocPanel extends JPanel {
+
+	/**
+	 * Create the panel.
+	 */
+	public OpenDocPanel() {
+		setBackground(new Color(128, 128, 128));
+		setBounds(6, 6, 521, 504);
+		setLayout(null);
+		
+		JTextArea docArea = new JTextArea();
+		docArea.setText("Hi");
+		docArea.setEditable(false);
+		docArea.setBounds(22, 25, 457, 323);
+		add(docArea);
+
+	}
+
+}
