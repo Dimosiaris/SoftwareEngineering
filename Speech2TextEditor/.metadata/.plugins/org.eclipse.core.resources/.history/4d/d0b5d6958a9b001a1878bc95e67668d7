@@ -1,0 +1,16 @@
+package View;
+
+import java.awt.Color;
+
+import javax.swing.JPanel;
+
+public class SettingsPanel extends JPanel {
+	
+	public SettingsPanel() {
+		setBackground(new Color(128, 128, 128));
+		setBounds(6, 6, 521, 504);
+		setLayout(null);
+		
+
+	}
+}

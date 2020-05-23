@@ -1,0 +1,65 @@
+package Model;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+
+
+
+public class Document {
+	
+	private String path;
+	private ArrayList<Line> contents = new ArrayList<Line>();
+	
+	public Document(String path) {
+		this.path = path;
+	}
+	
+	public void appendLine(Line line) {
+		contents.add(line);
+	}
+	
+	public void createDocumentfromPath() {
+		try {
+			File file = new File(path); 
+			Scanner myReader = new Scanner(file);
+			while(myReader.hasNextLine()) {
+				String line = myReader.nextLine();
+				this.appendLine(new Line(line));			// TODO MAY NEED TO BE MODIFIED WITH FACTORY
+			}
+			myReader.close();
+		}
+		catch(Exception e){  
+			e.printStackTrace(); 
+		}
+	} 
+	
+	public void playContents(String API) {
+		// Play the whole document, every line in the document
+		for(int i = contents.size() - 1; i <= 0; i--) {
+			contents.get(i).playReversedLine(API);
+		}
+	}
+	
+	public void playReversedContents(String API) {
+		// Play the whole document, every line in the document
+		for(Line line : contents) {
+			line.playLine(API);
+		}
+	}
+	
+	public void encodeContents(String strategy) {
+		for(Line line : contents) {
+			line.encodeLine(strategy);
+		}
+	}
+	
+	public void playEncodedContents(String API, String strategy) {
+		encodeContents(strategy);
+		// Play the whole document, every line in the document
+		for(Line line : contents) {
+			line.playEncodedLine(API);
+		}
+	}
+}

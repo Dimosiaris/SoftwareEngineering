@@ -1,0 +1,5 @@
+package Control;
+
+public interface TextToSpeechAPI {
+	public void play(String line);
+}

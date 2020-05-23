@@ -1,0 +1,112 @@
+package Control;
+
+import java.util.Locale; 
+import javax.speech.Central; 
+import javax.speech.synthesis.Synthesizer; 
+import javax.speech.synthesis.SynthesizerModeDesc;
+
+import com.sun.speech.freetts.Voice;
+import com.sun.speech.freetts.en.us.CMUDiphoneVoice; 
+
+
+
+public class FreeTTSAdapter implements TextToSpeechAPI{
+	/*
+	public void play(String line, int volume) {
+		try { 
+            // Set property as Kevin Dictionary 
+            System.setProperty( 
+                "freetts.voices", 
+                "com.sun.speech.freetts.en.us"
+                    + ".cmu_us_kal.KevinVoiceDirectory"); 
+  
+            // Register Engine 
+            Central.registerEngineCentral( 
+                "com.sun.speech.freetts"
+                + ".jsapi.FreeTTSEngineCentral"); 
+  
+            // Create a Synthesizer 
+            Synthesizer synthesizer 
+                = Central.createSynthesizer( 
+                    new SynthesizerModeDesc(Locale.US)); 
+  
+            // Allocate synthesizer 
+            synthesizer.allocate(); 
+  
+            Voice voice = new CMUDiphoneVoice();
+            voice.setVolume(volume);
+            
+            
+            // Resume Synthesizer 
+            synthesizer.resume(); 
+  
+            // Speaks the given text 
+            // until the queue is empty. 
+            synthesizer.speakPlainText( 
+                line, null); 
+            synthesizer.waitEngineState( 
+                Synthesizer.QUEUE_EMPTY); 
+            
+            // Deallocate the Synthesizer. 
+            //synthesizer.deallocate(); 
+        } 
+  
+        catch (Exception e) { 
+            e.printStackTrace(); 
+        } 
+	}
+	*/
+	public void play(String line, int volume) {
+		try {
+			System.setProperty( 
+	                "freetts.voices", 
+	                "com.sun.speech.freetts.en.us"
+	                    + ".cmu_us_kal.KevinVoiceDirectory"); 
+	  
+	            // Register Engine 
+	        Central.registerEngineCentral( 
+	                "com.sun.speech.freetts"
+	                + ".jsapi.FreeTTSEngineCentral"); 
+	  
+	        Synthesizer synthesizer 
+            = Central.createSynthesizer( 
+                new SynthesizerModeDesc(Locale.US)); 
+	        
+			Voice voice = new CMUDiphoneVoice();
+			voice.allocate();
+			voice.speak(line);
+		}catch (Exception e) { 
+            e.printStackTrace(); 
+        } 
+	}	
+	
+	public int getVolume() {
+		Voice voice = new CMUDiphoneVoice();
+		return (int)voice.getVolume();
+	}
+	
+	public int getPitch() {
+		Voice voice = new CMUDiphoneVoice();
+		return (int)voice.getPitch();
+	}
+	
+	public int getRate() {
+		Voice voice = new CMUDiphoneVoice();
+		return (int)voice.getRate();
+	}
+	
+	public void setVolume(int vol) {
+		Voice voice = new CMUDiphoneVoice();
+		voice.setVolume((float)vol);
+	}
+	
+	public void setPitch(int pitch) {
+		Voice voice = new CMUDiphoneVoice();
+		voice.setPitch((float)pitch);
+	}
+	
+	public void setRate(int rate) {
+		Voice voice = new CMUDiphoneVoice();
+		voice.setRate((float)rate);
+	}
+}

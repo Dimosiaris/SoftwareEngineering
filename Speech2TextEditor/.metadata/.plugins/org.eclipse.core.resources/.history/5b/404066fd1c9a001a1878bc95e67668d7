@@ -1,0 +1,7 @@
+package Control;
+
+import Model.Line;
+
+public interface TextToSpeechAPI {
+	public void play(String line);
+}

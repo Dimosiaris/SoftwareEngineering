@@ -1,0 +1,73 @@
+package View;
+
+import java.awt.Color;
+
+import javax.swing.JPanel;
+import javax.swing.ButtonGroup;
+import javax.swing.JLabel;
+import java.awt.Font;
+import javax.swing.SwingConstants;
+import javax.swing.JRadioButton;
+
+
+public class SettingsPanel extends JPanel {
+
+	/**
+	 * Create the panel.
+	 */
+	public SettingsPanel() {
+	
+		setBackground(Color.DARK_GRAY);
+		setBounds(6, 6, 521, 504);
+		setLayout(null);
+		
+		JLabel titleLabel = new JLabel("Settings");
+		titleLabel.setBounds(167, 28, 154, 46);
+		titleLabel.setForeground(Color.LIGHT_GRAY);
+		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		titleLabel.setFont(new Font("Lucida Sans Typewriter", Font.BOLD, 25));
+		add(titleLabel);
+		
+		JRadioButton freeTTSRadioButton = new JRadioButton("Free TTS");
+		freeTTSRadioButton.setForeground(Color.WHITE);
+		freeTTSRadioButton.setBounds(282, 158, 141, 23);
+		add(freeTTSRadioButton);
+		
+		JRadioButton FakeAPIRadioButton = new JRadioButton("Fake API");
+		FakeAPIRadioButton.setForeground(Color.WHITE);
+		FakeAPIRadioButton.setBounds(282, 203, 141, 23);
+		add(FakeAPIRadioButton);
+		
+		ButtonGroup APIGroup = new ButtonGroup();
+		APIGroup.add(FakeAPIRadioButton);
+		APIGroup.add(freeTTSRadioButton);
+		
+		JLabel lblNewLabel = new JLabel("Choose API:");
+		lblNewLabel.setForeground(Color.WHITE);
+		lblNewLabel.setFont(new Font("Lucida Sans", Font.BOLD, 16));
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setBounds(45, 182, 131, 33);
+		add(lblNewLabel);
+		
+		JRadioButton rdbtnNewRadioButton = new JRadioButton("Rot 13");
+		rdbtnNewRadioButton.setForeground(Color.WHITE);
+		rdbtnNewRadioButton.setBounds(282, 302, 141, 23);
+		add(rdbtnNewRadioButton);
+		
+		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("At Bash");
+		rdbtnNewRadioButton_1.setForeground(Color.WHITE);
+		rdbtnNewRadioButton_1.setBounds(282, 349, 141, 23);
+		add(rdbtnNewRadioButton_1);
+		
+		JLabel lblNewLabel_1 = new JLabel("Encryption:");
+		lblNewLabel_1.setFont(new Font("Lucida Sans", Font.BOLD, 16));
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1.setForeground(Color.WHITE);
+		lblNewLabel_1.setBounds(45, 325, 131, 33);
+		add(lblNewLabel_1);
+		
+		ButtonGroup encryptionGroup = new ButtonGroup();
+		encryptionGroup.add(FakeAPIRadioButton);
+		encryptionGroup.add(freeTTSRadioButton);
+	}
+}

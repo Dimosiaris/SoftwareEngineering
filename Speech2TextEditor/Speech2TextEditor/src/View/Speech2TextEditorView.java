@@ -6,6 +6,7 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
+import javax.crypto.EncryptedPrivateKeyInfo;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import java.awt.event.ActionListener;
@@ -27,6 +28,9 @@ import javax.swing.UIManager;
 import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
 
+import Model.Document;
+import java.awt.SystemColor;
+
 public class Speech2TextEditorView {
 
 	private JFrame frame;	
@@ -34,6 +38,7 @@ public class Speech2TextEditorView {
 	// The Panels
 	private JPanel sidePanel;
 	private JPanel mainPanel;
+	private SettingsPanel settingsPanel;
 	private OpenDocPanel openDocPanel;
 	private JLabel titleLabel;
 	private EditDocPanel editDocPanel;
@@ -42,6 +47,9 @@ public class Speech2TextEditorView {
 	
 	// The filename we're working on
 	private String filename;
+	private Document doc;
+	private JButton btnNewButton;
+
 	
 	/**
 	 * Launch the application.
@@ -73,6 +81,7 @@ public class Speech2TextEditorView {
 		mainPanel.setVisible(false);
 		openDocPanel.setVisible(false);
 		editDocPanel.setVisible(false);
+		settingsPanel.setVisible(false);
 		
 		panel.setVisible(true);
 		System.out.println("DID IT");
@@ -87,14 +96,19 @@ public class Speech2TextEditorView {
 		// Panels Initialization
 		
 		openDocPanel = new OpenDocPanel();
-		openDocPanel.setBounds(214, 6, 538, 485);
+		openDocPanel.setBounds(214, 6, 522, 496);
 		openDocPanel.setVisible(false);
 		frame.getContentPane().add(openDocPanel);
 		
 		editDocPanel = new EditDocPanel();
-		editDocPanel.setBounds(214, 6, 538, 485);
+		editDocPanel.setBounds(214, 6, 522, 496);
 		editDocPanel.setVisible(false);
 		frame.getContentPane().add(editDocPanel);
+		
+		settingsPanel = new SettingsPanel();
+		settingsPanel.setBounds(214, 6, 522, 496);
+		settingsPanel.setVisible(false);
+		frame.getContentPane().add(settingsPanel);
 		
 		sidePanel = new JPanel();
 		sidePanel.setBackground(new Color(0, 128, 128));
@@ -108,6 +122,13 @@ public class Speech2TextEditorView {
 		openDocButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				filename = startingTextArea.getText();
+				
+				// Create the Document
+				doc = new Document(filename, settingsPanel.getVolume(), settingsPanel.getPitch(), settingsPanel.getRate());
+				System.out.println(settingsPanel.getVolume());
+				doc.createDocumentfromPath();
+				settingsPanel.setDocument(doc);
+				
 				String contents = "";
 				try {
 				      File myObj = new File(filename);
@@ -126,13 +147,19 @@ public class Speech2TextEditorView {
 				openDocPanel.setText(contents);
 			}
 		});
-		openDocButton.setBounds(21, 148, 146, 29);
+		openDocButton.setBounds(21, 205, 146, 29);
 		sidePanel.add(openDocButton);
 		
 		JButton editDocButton = new JButton("Edit Document");
 		editDocButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				filename = startingTextArea.getText();
+				
+				// Create the Document
+				doc = new Document(filename, settingsPanel.getVolume(), settingsPanel.getPitch(), settingsPanel.getRate());
+				doc.createDocumentfromPath();
+				settingsPanel.setDocument(doc);
+				
 				String contents = "";
 				try {
 				      File myObj = new File(filename);
@@ -151,7 +178,7 @@ public class Speech2TextEditorView {
 				editDocPanel.setText(contents);
 			}
 		});
-		editDocButton.setBounds(21, 199, 136, 29);
+		editDocButton.setBounds(21, 246, 136, 29);
 		sidePanel.add(editDocButton);
 		
 		titleLabel = new JLabel("TEXT 2 SPEECH");
@@ -162,6 +189,7 @@ public class Speech2TextEditorView {
 		sidePanel.add(titleLabel);
 		
 		JButton titleButton = new JButton("Home");
+		titleButton.setFont(new Font("Lucida Grande", Font.BOLD, 13));
 		titleButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setPanel(mainPanel);
@@ -178,14 +206,19 @@ public class Speech2TextEditorView {
 				      FileWriter myWriter = new FileWriter(filename);
 				      myWriter.write(editDocPanel.getText());
 				      myWriter.close();
+				      
+				      // Create the new Document
+					  doc = new Document(filename, settingsPanel.getVolume(), settingsPanel.getPitch(), settingsPanel.getRate());
+					  doc.createDocumentfromPath();
+					
 				      System.out.println("Successfully wrote to the file.");
-				    } catch (IOException err) {
-					      System.out.println("An error occurred.");
-					      err.printStackTrace();
-				    }
+				} catch (IOException err) {
+					  System.out.println("An error occurred.");
+					  err.printStackTrace();
+				}
 			}
 		});
-		saveButton.setBounds(21, 251, 146, 29);
+		saveButton.setBounds(21, 310, 146, 29);
 		sidePanel.add(saveButton);
 		
 		newDocButton = new JButton("New Document");
@@ -206,12 +239,51 @@ public class Speech2TextEditorView {
 				    }
 			}
 		});
-		newDocButton.setBounds(21, 302, 136, 29);
+	
+		
+		JCheckBox encryptedCheckBox = new JCheckBox("Encrypted");
+		encryptedCheckBox.setBounds(21, 392, 128, 23);
+		sidePanel.add(encryptedCheckBox);
+		
+		newDocButton.setBounds(21, 164, 136, 29);
 		sidePanel.add(newDocButton);
 		
+		JButton doc2SpeechButton = new JButton("Document to speech");
+		doc2SpeechButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(doc != null) {
+					if(encryptedCheckBox.isSelected()) {
+						doc.playEncodedContents("FreeTTS");
+					}
+					else {
+						doc.playContents("FreeTTS");
+					}
+				}else {
+					System.out.println("An error occurred. There is no document open or in edit.");
+				}
+			}
+		});
+		doc2SpeechButton.setToolTipText("Start talking");
+		doc2SpeechButton.setBounds(21, 351, 169, 29);
+		
+		
+		
+		sidePanel.add(doc2SpeechButton);
+		
+		btnNewButton = new JButton("Settings");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setPanel(settingsPanel);
+			}
+		});
+		btnNewButton.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+		btnNewButton.setForeground(Color.DARK_GRAY);
+		btnNewButton.setBackground(Color.WHITE);
+		btnNewButton.setBounds(21, 427, 117, 29);
+		sidePanel.add(btnNewButton);
 		mainPanel = new JPanel();
 		mainPanel.setBackground(UIManager.getColor("MenuBar.disabledForeground"));
-		mainPanel.setBounds(214, 6, 538, 496);
+		mainPanel.setBounds(214, 65, 522, 437);
 		frame.getContentPane().add(mainPanel);
 		mainPanel.setLayout(null);
 		mainPanel.setVisible(true);
@@ -222,8 +294,10 @@ public class Speech2TextEditorView {
 		
 		
 		startingTextArea.setText("abc.txt");
-		startingTextArea.setBounds(0, 0, 538, 496);
+		startingTextArea.setBounds(0, 0, 522, 437);
 		mainPanel.add(startingTextArea);		
+		
+		
 		
 	}
 }

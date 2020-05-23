@@ -1,0 +1,5 @@
+package Control;
+
+public interface TemplateEncoding {
+	public abstract String encode(String str);
+}

@@ -1,0 +1,9 @@
+package Control;
+
+public class StrategiesFactory {
+	public EncodingStrategy createStrategy(String strategy) {
+		if(strategy.equals("Rot13")){
+			return new Rot13Encoding();
+		}
+	}
+}

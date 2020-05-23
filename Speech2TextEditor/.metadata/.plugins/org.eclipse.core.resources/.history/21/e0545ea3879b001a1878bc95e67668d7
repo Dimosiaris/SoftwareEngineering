@@ -1,0 +1,41 @@
+package View;
+
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import java.awt.Color;
+
+public class EditDocPanel extends JPanel {
+
+	/**
+	 * Create the panel.
+	 */
+	private JTextArea docArea = new JTextArea();
+
+	public EditDocPanel() {
+		setLayout(null);
+		setBounds(6, 6, 521, 504);
+
+		
+		JPanel editPanel = new JPanel();
+		editPanel.setBackground(new Color(128, 128, 128));
+		editPanel.setBounds(6, 6, 438, 400);
+		add(editPanel);
+		editPanel.setLayout(null);
+		
+		docArea.setBounds(6, 6, 426, 279);
+		docArea.setEditable(true);
+		editPanel.add(docArea);
+
+	}
+	
+	public void setText(String contents) {
+		docArea.setText(contents);
+		return;
+	}
+	
+	public String getText() {
+		return docArea.getText();
+	}
+
+
+}

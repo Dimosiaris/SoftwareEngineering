@@ -1,0 +1,6 @@
+package Control;
+
+// TODO MAY NEED TO CHANGE THIS INTO AN INTERFACE
+public abstract class TemplateEncoding {
+	public abstract String encode(String str);
+}

@@ -1,0 +1,45 @@
+package View;
+
+import java.awt.Color;
+
+import javax.swing.JPanel;
+import javax.swing.ButtonGroup;
+import javax.swing.JLabel;
+import java.awt.Font;
+import javax.swing.SwingConstants;
+import javax.swing.JRadioButton;
+
+
+public class SettingsPanel extends JPanel {
+
+	/**
+	 * Create the panel.
+	 */
+	public SettingsPanel() {
+	
+		setBackground(Color.DARK_GRAY);
+		setBounds(6, 6, 521, 504);
+		setLayout(null);
+		
+		JLabel titleLabel = new JLabel("Settings");
+		titleLabel.setBounds(167, 18, 154, 46);
+		titleLabel.setForeground(Color.LIGHT_GRAY);
+		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		titleLabel.setFont(new Font("Lucida Sans Typewriter", Font.BOLD, 25));
+		add(titleLabel);
+		
+		JRadioButton freeTTSRadioButton = new JRadioButton("Free TTS");
+		freeTTSRadioButton.setForeground(Color.WHITE);
+		freeTTSRadioButton.setBounds(60, 157, 141, 23);
+		add(freeTTSRadioButton);
+		
+		JRadioButton FakeAPIRadioButton = new JRadioButton("Fake API");
+		FakeAPIRadioButton.setForeground(Color.WHITE);
+		FakeAPIRadioButton.setBounds(60, 205, 141, 23);
+		add(FakeAPIRadioButton);
+		
+		ButtonGroup bg1 = new ButtonGroup();
+		bg1.add(FakeAPIRadioButton);
+		bg1.add(freeTTSRadioButton);
+	}
+}
