@@ -17,11 +17,13 @@ public class Document {
 	private String API;
 	private String encryption;
 	
-	public Document(String path, int volume, int pitch, int rate) {
+	public Document(String path, int volume, int pitch, int rate, String API, String encryption) {
 		this.path = path;
 		this.volume = volume;
 		this.pitch = pitch;
 		this.rate = rate;
+		this.API = API;
+		this.encryption = encryption;
 	}
 	
 	
@@ -35,7 +37,7 @@ public class Document {
 			Scanner myReader = new Scanner(file);
 			while(myReader.hasNextLine()) {
 				String line = myReader.nextLine();
-				this.appendLine(new Line(line));			// TODO MAY NEED TO BE MODIFIED WITH FACTORY
+				this.appendLine(new Line(line));			
 			}
 			myReader.close();
 		}
@@ -51,10 +53,10 @@ public class Document {
 		}
 	}
 	
-	public void playContents(String API) {
+	public void playContents() {
 		// Play the whole document, every line in the document
 		for(Line line : contents) {
-			line.playLine(API, volume, pitch, rate);
+			line.playLine(this.API, volume, pitch, rate);
 		}
 	}
 	
@@ -64,17 +66,17 @@ public class Document {
 		}
 	}
 	
-	public void playEncodedContents(String API) {
+	public void playEncodedContents() {
 		encodeContents();
 		// Play the whole document, every line in the document
 		for(Line line : contents) {
-			line.playEncodedLine(API, volume, pitch, rate);
+			line.playEncodedLine(this.API, volume, pitch, rate);
 		}
 	}
 	
-	public void playLine(String API, int i) {
+	public void playLine(int i) {
 		// Play the whole document, every line in the document
-		contents.get(i).playLine(API, volume, pitch, rate);
+		contents.get(i).playLine(this.API, volume, pitch, rate);
 		
 	}
 

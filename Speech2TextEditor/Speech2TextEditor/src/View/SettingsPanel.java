@@ -38,7 +38,8 @@ public class SettingsPanel extends JPanel {
 	public SettingsPanel() {
 	
 		
-		
+		API = "FreeTTS";
+		encryption = "Rot13";
 		setBackground(Color.DARK_GRAY);
 		setBounds(6, 6, 521, 504);
 		setLayout(null);
@@ -78,12 +79,12 @@ public class SettingsPanel extends JPanel {
 		APIGroup.add(FakeAPIRadioButton);
 		APIGroup.add(freeTTSRadioButton);
 		
-		JLabel lblNewLabel = new JLabel("Choose API:");
-		lblNewLabel.setForeground(Color.WHITE);
-		lblNewLabel.setFont(new Font("Lucida Sans", Font.BOLD, 16));
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(45, 139, 131, 33);
-		add(lblNewLabel);
+		JLabel chooseAPILabel = new JLabel("Choose API:");
+		chooseAPILabel.setForeground(Color.WHITE);
+		chooseAPILabel.setFont(new Font("Lucida Sans", Font.BOLD, 16));
+		chooseAPILabel.setHorizontalAlignment(SwingConstants.CENTER);
+		chooseAPILabel.setBounds(45, 139, 131, 33);
+		add(chooseAPILabel);
 		
 		JRadioButton rot13RadioButton = new JRadioButton("Rot 13");
 		rot13RadioButton.addActionListener(new ActionListener() {
@@ -109,12 +110,12 @@ public class SettingsPanel extends JPanel {
 		atBashRadioButton.setBounds(282, 278, 141, 23);
 		add(atBashRadioButton);
 		
-		JLabel lblNewLabel_1 = new JLabel("Encryption:");
-		lblNewLabel_1.setFont(new Font("Lucida Sans", Font.BOLD, 16));
-		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel_1.setForeground(Color.WHITE);
-		lblNewLabel_1.setBounds(45, 244, 131, 33);
-		add(lblNewLabel_1);
+		JLabel encryptionLabel = new JLabel("Encryption:");
+		encryptionLabel.setFont(new Font("Lucida Sans", Font.BOLD, 16));
+		encryptionLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		encryptionLabel.setForeground(Color.WHITE);
+		encryptionLabel.setBounds(45, 244, 131, 33);
+		add(encryptionLabel);
 		
 		ButtonGroup encryptionGroup = new ButtonGroup();
 		encryptionGroup.add(rot13RadioButton);

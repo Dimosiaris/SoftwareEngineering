@@ -124,7 +124,8 @@ public class Speech2TextEditorView {
 				filename = startingTextArea.getText();
 				
 				// Create the Document
-				doc = new Document(filename, settingsPanel.getVolume(), settingsPanel.getPitch(), settingsPanel.getRate());
+				doc = new Document(filename, settingsPanel.getVolume(), settingsPanel.getPitch(), 
+			  			settingsPanel.getRate(), settingsPanel.getAPI(), settingsPanel.getEncryption());
 				System.out.println(settingsPanel.getVolume());
 				doc.createDocumentfromPath();
 				settingsPanel.setDocument(doc);
@@ -156,7 +157,8 @@ public class Speech2TextEditorView {
 				filename = startingTextArea.getText();
 				
 				// Create the Document
-				doc = new Document(filename, settingsPanel.getVolume(), settingsPanel.getPitch(), settingsPanel.getRate());
+				doc = new Document(filename, settingsPanel.getVolume(), settingsPanel.getPitch(), 
+			  			settingsPanel.getRate(), settingsPanel.getAPI(), settingsPanel.getEncryption());
 				doc.createDocumentfromPath();
 				settingsPanel.setDocument(doc);
 				
@@ -208,7 +210,8 @@ public class Speech2TextEditorView {
 				      myWriter.close();
 				      
 				      // Create the new Document
-					  doc = new Document(filename, settingsPanel.getVolume(), settingsPanel.getPitch(), settingsPanel.getRate());
+					  doc = new Document(filename, settingsPanel.getVolume(), settingsPanel.getPitch(), 
+							  			settingsPanel.getRate(), settingsPanel.getAPI(), settingsPanel.getEncryption());
 					  doc.createDocumentfromPath();
 					
 				      System.out.println("Successfully wrote to the file.");
@@ -253,10 +256,10 @@ public class Speech2TextEditorView {
 			public void actionPerformed(ActionEvent e) {
 				if(doc != null) {
 					if(encryptedCheckBox.isSelected()) {
-						doc.playEncodedContents("FreeTTS");
+						doc.playEncodedContents();
 					}
 					else {
-						doc.playContents("FreeTTS");
+						doc.playContents();
 					}
 				}else {
 					System.out.println("An error occurred. There is no document open or in edit.");
