@@ -6,7 +6,7 @@ import javax.swing.JTextArea;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.UIManager;
-
+// open document panel in gui
 public class OpenDocPanel extends JPanel {
 
 	/**
@@ -31,7 +31,7 @@ public class OpenDocPanel extends JPanel {
 		add(lblNewLabel);
 
 	}
-	
+	// set text for the document
 	public void setText(String contents) {
 		docArea.setText(contents);
 		return;

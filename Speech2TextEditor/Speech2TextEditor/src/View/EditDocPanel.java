@@ -6,7 +6,7 @@ import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.UIManager;
-
+// edit document panel in gui
 public class EditDocPanel extends JPanel {
 
 	/**
@@ -37,7 +37,7 @@ public class EditDocPanel extends JPanel {
 		add(lblNewLabel);
 
 	}
-	
+	// get and set the text for the document
 	public void setText(String contents) {
 		docArea.setText(contents);
 		return;

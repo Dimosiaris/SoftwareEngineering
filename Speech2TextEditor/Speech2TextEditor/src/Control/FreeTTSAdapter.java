@@ -1,5 +1,5 @@
 package Control;
-
+// freetts adapter essentials
 import java.util.Locale; 
 import javax.speech.Central; 
 import javax.speech.synthesis.Synthesizer; 

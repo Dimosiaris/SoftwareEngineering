@@ -1,5 +1,5 @@
 package Control;
-
+// implementing AtBash cipher where A becomes Z, B becomes Y etc
 public class AtBashEncoding extends TemplateEncoding {
 	public String encode(String str) {
 		String allchar = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";

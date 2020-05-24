@@ -1,5 +1,5 @@
 package Control;
-
+// control volume,pith and rate
 public interface TextToSpeechAPI {
 	public void play(String line, int volume, int pitch, int rate);
 	public int getVolume();

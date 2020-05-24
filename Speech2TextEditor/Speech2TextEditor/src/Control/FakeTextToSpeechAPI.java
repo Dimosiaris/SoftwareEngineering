@@ -1,5 +1,5 @@
 package Control;
-
+// creating a fake api similar to TexttoSpeech api for testing
 public class FakeTextToSpeechAPI implements TextToSpeechAPI {
 	
 	private int volume;

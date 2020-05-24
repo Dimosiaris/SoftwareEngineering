@@ -9,7 +9,7 @@ public class TextToSpeechAPIFactory {
 		else if(API.equals("FakeAPI")){
 			return new FakeTextToSpeechAPI();
 		}else {
-			return new FreeTTSAdapter();  	// TODO NEEED TO ADD THE NEW API (FAKE API) WITH THE TESTING
+			return new FreeTTSAdapter();
 		}
 	}
 }
