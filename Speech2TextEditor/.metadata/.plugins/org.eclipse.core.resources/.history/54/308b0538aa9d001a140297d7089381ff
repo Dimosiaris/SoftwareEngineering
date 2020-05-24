@@ -1,0 +1,171 @@
+package Tests;
+
+import static org.junit.Assert.*;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+import org.junit.Test;
+
+import Model.Document;
+import org.junit.rules.TemporaryFolder;
+import org.junit.Rule;
+
+public class DocumentTest {
+
+	
+	@Test
+	public void createDocumentfromPathTest() {
+		String filename = "test.txt";
+		Document testDoc = new Document(filename, 100, 100, 100, "FakeAPI", "Rot13");
+		testDoc.createDocumentfromPath();
+		
+		assertTrue(testDoc.getFile().exists());
+		
+	}
+	public void editDocumentTest() {
+		String filename = "test.txt";
+		Document testDoc = new Document(filename, 100, 100, 100, "FakeAPI", "Rot13");
+		testDoc.createDocumentfromPath();
+		
+		String contents = "This is the new contents";
+		try {
+		      File myObj = new File(filename);
+		      Scanner myReader = new Scanner(myObj);
+		      while (myReader.hasNextLine()) {
+		    	  String data = myReader.nextLine();
+		          contents += data;
+		          contents += "\n";
+		      }
+		      myReader.close();
+		}catch (FileNotFoundException err) {
+			 System.out.println("An error occurred.");
+		     err.printStackTrace();
+		}
+	}
+	@Test
+	
+	@Test
+	public void playReversedContentsTest() {
+		Document test = new Document();
+		
+		assertEquals(,);
+		
+	}
+	
+	@Test
+	public void playContentsTest() {
+		Document test = new Document();
+		
+		assertEquals(,);
+	}
+	
+	@Test
+	public void encodeContentsTest() {
+		Document test = new Document();
+		
+		assertEquals(,);
+	}
+	
+	@Test
+	public void playEncodedContentsTest() {
+		Document test = new Document();
+		
+		assertEquals(,);
+	}
+	
+	@Test
+	public void playLineTest() {
+		Document test = new Document();
+		
+		assertEquals(,);
+		
+	}
+	
+	@Test
+	public void getPathTest() {
+		Document test = new Document();
+		
+		assertEquals(,);
+	}
+	
+	@Test
+	public void setPathTest() {
+		Document test = new Document();
+		
+		assertEquals(,);
+	}
+	
+	@Test
+	public void getVolumeTest() {
+		Document test = new Document();
+		
+		assertEquals(,);
+	}
+	
+	@Test
+	public void setVolumeTest() {
+		Document test = new Document();
+		
+		assertEquals(,);
+	}
+	
+	@Test
+	public void getPitchTest() {
+		Document test = new Document();
+		
+		assertEquals(,);
+	}
+	
+	@Test
+	public void setPitchTest() {
+		Document test = new Document();
+		
+		assertEquals(,);
+	}
+	
+	@Test
+	public void getRateTest() {
+		Document test = new Document();
+		
+		assertEquals(,);
+	}
+	
+	@Test
+	public void setRateTest() {
+		Document test = new Document();
+		
+		assertEquals(,);
+	}
+	
+	@Test
+	public void getAPITest() {
+		Document test = new Document();
+		
+		assertEquals(,);
+	}
+	
+	@Test
+	public void setAPITest() {
+		Document test = new Document();
+		
+		assertEquals(,);
+	}
+	
+	@Test
+	public void getEncryptionTest() {
+		Document test = new Document();
+		
+		assertEquals(,);
+	}
+	
+	@Test
+	public void setEncryptionTest() {
+		Document test = new Document();
+		
+		assertEquals(,);
+	}	
+	
+
+}

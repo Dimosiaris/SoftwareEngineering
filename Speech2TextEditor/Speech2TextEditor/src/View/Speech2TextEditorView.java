@@ -230,16 +230,16 @@ public class Speech2TextEditorView {
 	
 				filename = startingTextArea.getText();
 				try {
-				      File myObj = new File(filename);
-				      if (myObj.createNewFile()) {
+					File myObj = new File(filename);
+				    if (myObj.createNewFile()) {
 				        System.out.println("File created: " + myObj.getName());
-				      } else {
+				    } else {
 				        System.out.println("File already exists.");
-				      }
-				    } catch (IOException err) {
+				    }
+				} catch (IOException err) {
 				      System.out.println("An error occurred.");
 				      err.printStackTrace();
-				    }
+			    }
 			}
 		});
 	

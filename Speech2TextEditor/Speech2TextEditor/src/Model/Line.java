@@ -3,6 +3,7 @@ package Model;
 import java.util.ArrayList;
 
 import Control.EncodingStrategy;
+import Control.FakeTextToSpeechAPI;
 import Control.StrategiesFactory;
 import Control.TextToSpeechAPI;
 import Control.TextToSpeechAPIFactory;
@@ -38,7 +39,6 @@ public class Line {
 		return line;
 	}
 
-	// TODO ADD DIFFERENT APIs
 	public void playLine(String API, int volume, int pitch, int rate) {
 		// Create the factory and the API
 		TextToSpeechAPIFactory factory = new TextToSpeechAPIFactory();
@@ -47,7 +47,6 @@ public class Line {
 		text2speech.play(getWords(), volume, pitch, rate);
 	}
 	
-	// TODO ADD DIFFERENT APIs
 	public void playReversedLine(String API, int volume, int pitch, int rate) {
 		// Create the factory and the API
 		TextToSpeechAPIFactory factory = new TextToSpeechAPIFactory();
@@ -77,7 +76,6 @@ public class Line {
 		return returnLine;
 	}
 	
-	// TODO ADD DIFFERENT APIs
 	public void playEncodedLine(String API, int volume, int pitch, int rate) {
 		// Create the factory and the API
 		TextToSpeechAPIFactory factory = new TextToSpeechAPIFactory();
@@ -85,6 +83,14 @@ public class Line {
 		// Play the words
 		text2speech.play(getEncodedWords(), volume, pitch, rate);
 		encodedWords.clear();
+	}
+	public String playFakeLine(int volume, int pitch, int rate) {
+		// Create the factory and the API
+		FakeTextToSpeechAPI fakeAPI = new FakeTextToSpeechAPI();
+		
+		// Play the words
+		fakeAPI.play(getWords(), volume, pitch, rate);
+		return fakeAPI.getTextToBePlayed();
 	}
 }
 

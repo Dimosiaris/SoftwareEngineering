@@ -16,6 +16,7 @@ public class Document {
 	private int rate;
 	private String API;
 	private String encryption;
+	private File file;
 	
 	public Document(String path, int volume, int pitch, int rate, String API, String encryption) {
 		this.path = path;
@@ -33,7 +34,7 @@ public class Document {
 	
 	public void createDocumentfromPath() {
 		try {
-			File file = new File(path); 
+			file = new File(path); 
 			Scanner myReader = new Scanner(file);
 			while(myReader.hasNextLine()) {
 				String line = myReader.nextLine();
@@ -78,6 +79,15 @@ public class Document {
 		// Play the whole document, every line in the document
 		contents.get(i).playLine(this.API, volume, pitch, rate);
 		
+	}
+	
+	public String playFake() {
+		// Play the whole document, every line in the document
+		String fakeContents = "";
+		for(Line line : contents) {
+			fakeContents += line.playFakeLine(volume, pitch, rate);
+		}
+		return fakeContents;
 	}
 
 	public String getPath() {
@@ -126,5 +136,15 @@ public class Document {
 
 	public void setEncryption(String encryption) {
 		this.encryption = encryption;
+	}
+
+
+	public File getFile() {
+		return file;
+	}
+
+
+	public void setFile(File file) {
+		this.file = file;
 	}
 }

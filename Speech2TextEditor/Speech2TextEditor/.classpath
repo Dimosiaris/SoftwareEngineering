@@ -12,5 +12,6 @@
 	<classpathentry kind="lib" path="/Users/dimosiaris/Documents/workspace/SoftwareEngineering/Speech2TextEditor/Speech2TextEditor/freetts-1.2.2-bin (2)/freetts-1.2/lib/freetts-jsapi10.jar"/>
 	<classpathentry kind="lib" path="/Users/dimosiaris/Documents/workspace/SoftwareEngineering/Speech2TextEditor/Speech2TextEditor/freetts-1.2.2-bin (2)/freetts-1.2/lib/freetts.jar"/>
 	<classpathentry kind="lib" path="/Users/dimosiaris/Documents/workspace/SoftwareEngineering/Speech2TextEditor/Speech2TextEditor/freetts-1.2.2-bin (2)/freetts-1.2/lib/mbrola.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
