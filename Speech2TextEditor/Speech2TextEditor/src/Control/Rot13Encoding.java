@@ -1,5 +1,5 @@
 package Control;
-
+// implementing rot13 cipher where every letter is shifted 13 letter to encrypt
 public class Rot13Encoding extends TemplateEncoding {
 	
 	public String encode(String str) {
