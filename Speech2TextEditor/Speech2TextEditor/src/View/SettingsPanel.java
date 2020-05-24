@@ -21,7 +21,7 @@ import javax.swing.event.ChangeEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-
+// settings panel for the gui
 public class SettingsPanel extends JPanel {
 
 
@@ -187,7 +187,7 @@ public class SettingsPanel extends JPanel {
 		
 		
 	}
-
+// get and set api,encryption,volume,pitch,rate
 	public String getAPI() {
 		return API;
 	}
@@ -226,7 +226,7 @@ public class SettingsPanel extends JPanel {
 	public void setRate(int rate) {
 		this.rate = rate;
 	}
-	
+	// set document to interact with
 	public void setDocument(Document doc) {
 		this.document = doc;
 	}

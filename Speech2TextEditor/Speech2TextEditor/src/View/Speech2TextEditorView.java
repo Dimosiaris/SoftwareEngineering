@@ -30,7 +30,7 @@ import javax.swing.border.TitledBorder;
 
 import Model.Document;
 import java.awt.SystemColor;
-
+// main application file
 public class Speech2TextEditorView {
 
 	private JFrame frame;	
