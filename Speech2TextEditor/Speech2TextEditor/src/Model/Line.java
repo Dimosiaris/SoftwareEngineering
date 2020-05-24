@@ -13,7 +13,7 @@ public class Line {
 	private ArrayList<String> encodedWords = new ArrayList<String>();
 	private String line;
 	private String encodedLine;
-	
+	// initialize line
 	public Line(String line) {
 		this.line = line;
 		String s[] = line.split("\\s+");
@@ -21,7 +21,7 @@ public class Line {
 			words.add(i);
 		}
 	}
-	
+	// get words in regular order
 	public String getWords() {
 		String line = "";
 		for(String word : words) {
@@ -29,7 +29,7 @@ public class Line {
 		}
 		return line;
 	}
-	
+	// get words in reverse order
 	public String getReversedWords() {
 		String line = "";
 		for(String word : words) {
@@ -38,7 +38,7 @@ public class Line {
 		return line;
 	}
 
-	// TODO ADD DIFFERENT APIs
+	// play given line in regular order
 	public void playLine(String API, int volume, int pitch, int rate) {
 		// Create the factory and the API
 		TextToSpeechAPIFactory factory = new TextToSpeechAPIFactory();
@@ -47,7 +47,7 @@ public class Line {
 		text2speech.play(getWords(), volume, pitch, rate);
 	}
 	
-	// TODO ADD DIFFERENT APIs
+	// play given line in reverse order
 	public void playReversedLine(String API, int volume, int pitch, int rate) {
 		// Create the factory and the API
 		TextToSpeechAPIFactory factory = new TextToSpeechAPIFactory();
@@ -55,7 +55,7 @@ public class Line {
 		// Play the words
 		text2speech.play(getReversedWords(), volume, pitch, rate);
 	}
-	
+	// encode given line with rot13 or AtBash
 	public void encodeLine(String encryption) {
 		// Create the factory
 		StrategiesFactory factory = new StrategiesFactory();
@@ -68,7 +68,7 @@ public class Line {
 			encodedWords.add(i);
 		}
 	}
-	
+	// get encoded words with rot13 or AtBash
 	public String getEncodedWords() {
 		String returnLine = "";
 		for(String word : encodedWords) {
@@ -77,7 +77,7 @@ public class Line {
 		return returnLine;
 	}
 	
-	// TODO ADD DIFFERENT APIs
+	// play the given line encoded with rot13 or AtBash
 	public void playEncodedLine(String API, int volume, int pitch, int rate) {
 		// Create the factory and the API
 		TextToSpeechAPIFactory factory = new TextToSpeechAPIFactory();

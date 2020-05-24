@@ -16,7 +16,7 @@ public class Document {
 	private int rate;
 	private String API;
 	private String encryption;
-	
+	// initialize document
 	public Document(String path, int volume, int pitch, int rate, String API, String encryption) {
 		this.path = path;
 		this.volume = volume;
@@ -26,11 +26,11 @@ public class Document {
 		this.encryption = encryption;
 	}
 	
-	
+	// append line to the document
 	public void appendLine(Line line) {
 		contents.add(line);
 	}
-	
+	// create document from a given path
 	public void createDocumentfromPath() {
 		try {
 			File file = new File(path); 
@@ -45,27 +45,27 @@ public class Document {
 			e.printStackTrace(); 
 		}
 	} 
-	
+	// play the contents in reverse order
 	public void playReversedContents(String API) {
 		// Play the whole document, every line in the document
 		for(int i = contents.size() - 1; i >= 0; i--) {
 			contents.get(i).playReversedLine(API, volume, pitch, rate);
 		}
 	}
-	
+	// play the contents in regular order
 	public void playContents() {
 		// Play the whole document, every line in the document
 		for(Line line : contents) {
 			line.playLine(this.API, volume, pitch, rate);
 		}
 	}
-	
+	// encode the contents in rot13 or AtBash
 	public void encodeContents() {
 		for(Line line : contents) {
 			line.encodeLine(encryption);
 		}
 	}
-	
+	// play the encoded contents
 	public void playEncodedContents() {
 		encodeContents();
 		// Play the whole document, every line in the document
@@ -73,13 +73,13 @@ public class Document {
 			line.playEncodedLine(this.API, volume, pitch, rate);
 		}
 	}
-	
+	// play the contents of a line
 	public void playLine(int i) {
 		// Play the whole document, every line in the document
 		contents.get(i).playLine(this.API, volume, pitch, rate);
 		
 	}
-
+// get and set path,volume,pitch,rate,api and encryption for the document contents
 	public String getPath() {
 		return path;
 	}
