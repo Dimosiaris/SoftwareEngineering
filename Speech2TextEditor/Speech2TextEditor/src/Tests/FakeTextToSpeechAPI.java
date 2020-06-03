@@ -3,12 +3,8 @@ package Tests;
 import static org.junit.Assert.*;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Scanner;
 
 import org.junit.Test;
 
@@ -35,8 +31,7 @@ public class FakeTextToSpeechAPI {
 		testDoc.createDocumentfromPath();
 		
 		
-	    BufferedReader in
-	    = new BufferedReader(new FileReader(filename));
+	    BufferedReader in = new BufferedReader(new FileReader(filename));
 	    
 	    String conts = "";
 	    String x;
@@ -48,6 +43,7 @@ public class FakeTextToSpeechAPI {
 	    }
 	    
 		assertEquals(conts, testDoc.playFake());
+		in.close();
 	}
 
 }

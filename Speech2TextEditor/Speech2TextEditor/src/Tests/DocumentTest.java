@@ -13,8 +13,6 @@ import java.util.Scanner;
 import org.junit.Test;
 
 import Model.Document;
-import org.junit.rules.TemporaryFolder;
-import org.junit.Rule;
 
 public class DocumentTest {
 

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 package Model;
 
 import java.io.File;
@@ -10,6 +9,7 @@ import java.util.Scanner;
 
 public class Document {
 	
+	// Starting fields
 	private String path;
 	private ArrayList<Line> contents = new ArrayList<Line>();
 	private int volume;
@@ -19,6 +19,7 @@ public class Document {
 	private String encryption;
 	private File file;
 	
+	// Constructor
 	public Document(String path, int volume, int pitch, int rate, String API, String encryption) {
 		this.path = path;
 		this.volume = volume;
@@ -28,11 +29,12 @@ public class Document {
 		this.encryption = encryption;
 	}
 	
-	
+	// Add a line to the Document
 	public void appendLine(Line line) {
 		contents.add(line);
 	}
 	
+	// Create the Document
 	public void createDocumentfromPath() {
 		try {
 			file = new File(path); 
@@ -91,6 +93,9 @@ public class Document {
 		return fakeContents;
 	}
 
+	/*
+	 *  		SETTERS AND GETTERS
+	 */
 	public String getPath() {
 		return path;
 	}
@@ -149,135 +154,3 @@ public class Document {
 		this.file = file;
 	}
 }
-=======
-package Model;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Scanner;
-
-
-
-
-public class Document {
-	
-	private String path;
-	private ArrayList<Line> contents = new ArrayList<Line>();
-	private int volume;
-	private int pitch;
-	private int rate;
-	private String API;
-	private String encryption;
-	// initialize document
-	public Document(String path, int volume, int pitch, int rate, String API, String encryption) {
-		this.path = path;
-		this.volume = volume;
-		this.pitch = pitch;
-		this.rate = rate;
-		this.API = API;
-		this.encryption = encryption;
-	}
-	
-	// append line to the document
-	public void appendLine(Line line) {
-		contents.add(line);
-	}
-	// create document from a given path
-	public void createDocumentfromPath() {
-		try {
-			File file = new File(path); 
-			Scanner myReader = new Scanner(file);
-			while(myReader.hasNextLine()) {
-				String line = myReader.nextLine();
-				this.appendLine(new Line(line));			
-			}
-			myReader.close();
-		}
-		catch(Exception e){  
-			e.printStackTrace(); 
-		}
-	} 
-	// play the contents in reverse order
-	public void playReversedContents(String API) {
-		// Play the whole document, every line in the document
-		for(int i = contents.size() - 1; i >= 0; i--) {
-			contents.get(i).playReversedLine(API, volume, pitch, rate);
-		}
-	}
-	// play the contents in regular order
-	public void playContents() {
-		// Play the whole document, every line in the document
-		for(Line line : contents) {
-			line.playLine(this.API, volume, pitch, rate);
-		}
-	}
-	// encode the contents in rot13 or AtBash
-	public void encodeContents() {
-		for(Line line : contents) {
-			line.encodeLine(encryption);
-		}
-	}
-	// play the encoded contents
-	public void playEncodedContents() {
-		encodeContents();
-		// Play the whole document, every line in the document
-		for(Line line : contents) {
-			line.playEncodedLine(this.API, volume, pitch, rate);
-		}
-	}
-	// play the contents of a line
-	public void playLine(int i) {
-		// Play the whole document, every line in the document
-		contents.get(i).playLine(this.API, volume, pitch, rate);
-		
-	}
-// get and set path,volume,pitch,rate,api and encryption for the document contents
-	public String getPath() {
-		return path;
-	}
-
-	public void setPath(String path) {
-		this.path = path;
-	}
-
-	public int getVolume() {
-		return volume;
-	}
-
-	public void setVolume(int volume) {
-		this.volume = volume;
-	}
-
-	public int getPitch() {
-		return pitch;
-	}
-
-	public void setPitch(int pitch) {
-		this.pitch = pitch;
-	}
-
-	public int getRate() {
-		return rate;
-	}
-
-	public void setRate(int rate) {
-		this.rate = rate;
-	}
-
-	public String getAPI() {
-		return API;
-	}
-
-	public void setAPI(String aPI) {
-		API = aPI;
-	}
-
-	public String getEncryption() {
-		return encryption;
-	}
-
-	public void setEncryption(String encryption) {
-		this.encryption = encryption;
-	}
-}
->>>>>>> 70153033134f98c953f21f1b28cc4ca9257ba198

@@ -5,8 +5,6 @@ import javax.swing.JTextArea;
 import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.Font;
-import javax.swing.UIManager;
-// edit document panel in gui
 public class EditDocPanel extends JPanel {
 
 	/**

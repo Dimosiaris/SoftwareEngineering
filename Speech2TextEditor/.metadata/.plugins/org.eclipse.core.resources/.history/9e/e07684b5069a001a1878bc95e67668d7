@@ -1,7 +1,0 @@
-package Control;
-
-import Model.Line;
-
-public interface EncodingStrategy {
-	public String encode(Line line);
-}

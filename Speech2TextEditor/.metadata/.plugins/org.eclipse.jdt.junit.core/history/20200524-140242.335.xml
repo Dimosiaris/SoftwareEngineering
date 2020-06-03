@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><testrun name="DocumentTest" project="Speech2TextEditor" tests="3" started="3" failures="0" errors="0" ignored="0">
-  <testsuite name="Tests.DocumentTest" time="0.0">
-    <testcase name="createDocumentfromPathTest" classname="Tests.DocumentTest" time="0.0"/>
-    <testcase name="editAndSaveDocumentTest" classname="Tests.DocumentTest" time="0.0"/>
-    <testcase name="openDocumentTest" classname="Tests.DocumentTest" time="0.0"/>
-  </testsuite>
-</testrun>

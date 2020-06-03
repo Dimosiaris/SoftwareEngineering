@@ -1,5 +1,0 @@
-import Control.EncodingStrategy;
-
-public abstract class TemplateEncoding implements EncodingStrategy{
-	public abstract String encode(String str);
-}
