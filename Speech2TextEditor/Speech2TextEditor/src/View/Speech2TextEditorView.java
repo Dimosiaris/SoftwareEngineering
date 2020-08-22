@@ -16,6 +16,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextPane;
@@ -28,6 +29,16 @@ import javax.swing.UIManager;
 import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
 
+import Control.Command;
+import Control.Doc2SpeechCommand;
+import Control.EditDocumentCommand;
+import Control.HomeButtonCommand;
+import Control.Line2SpeechCommand;
+import Control.NewDocumentCommand;
+import Control.OpenDocumentCommand;
+import Control.ReplayCommand;
+import Control.SaveDocumentCommand;
+import Control.SettingsButtonCommand;
 import Model.Document;
 import java.awt.SystemColor;
 
@@ -36,24 +47,29 @@ public class Speech2TextEditorView {
 	private JFrame frame;	
 	
 	// The Panels
-	private JPanel sidePanel;
-	private JPanel mainPanel;
-	private SettingsPanel settingsPanel;
-	private OpenDocPanel openDocPanel;
-	private JLabel titleLabel;
-	private EditDocPanel editDocPanel;
-	private JButton saveButton;
-	private JButton newDocButton;
+	private JPanel 				sidePanel;
+	private JPanel				mainPanel;
+	private SettingsPanel 		settingsPanel;
+	private OpenDocPanel 		openDocPanel;
+	private JLabel 				titleLabel;
+	private EditDocPanel 		editDocPanel;
+	private JButton 			saveButton;
+	private JButton 			newDocButton;
+	private JCheckBox 			encryptedCheckBox;
 	
 	// The filename we're working on
-	private String filename;
-	private Document doc;
-	private JButton btnNewButton;
-
+	private String 				filename;
+	private Document 			doc;
+	private JButton 			settingsButton;
+	
+	private ArrayList<Command>  replayList = new ArrayList<Command>();
+	private JTextField			lineField;
+	private JTextField 			commandField;
 	
 	/**
 	 * Launch the application.
 	 */
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -70,6 +86,7 @@ public class Speech2TextEditorView {
 	/**
 	 * Create the application.
 	 */
+	
 	public Speech2TextEditorView() {
 		initialize();
 	}
@@ -77,6 +94,7 @@ public class Speech2TextEditorView {
 	/*
 	 * Function that helps us change between panels
 	 */
+	
 	public void setPanel(JPanel panel) {
 		mainPanel.setVisible(false);
 		openDocPanel.setVisible(false);
@@ -86,17 +104,24 @@ public class Speech2TextEditorView {
 		panel.setVisible(true);
 		System.out.println("DID IT");
 	}
+	
 	/**
 	 * Initialize the contents of the frame.
 	 */
+	
+	public Speech2TextEditorView getMe() {
+		return this;
+	}
+	
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 758, 530);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		
-		// Panels Initialization
+		/*
+		 * 		Panels Initialization
+		 */
 		
 		openDocPanel = new OpenDocPanel();
 		openDocPanel.setBounds(214, 6, 522, 496);
@@ -121,77 +146,47 @@ public class Speech2TextEditorView {
 		
 		TextArea startingTextArea = new TextArea();
 		
+/*
+ * ==============================================================================================================================================================================================================
+ * ==============================================================================================================================================================================================================
+ * ==============================================================================================================================================================================================================
+ */
 		/*
-		 *  		OPEN DOCIUMENT BUTTON
+		 *  		OPEN DOCUMENT BUTTON
 		 */
+		
 		JButton openDocButton = new JButton("Open Document");
 		openDocButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				filename = startingTextArea.getText();
-				
-				// Create the Document
-				doc = new Document(filename, settingsPanel.getVolume(), settingsPanel.getPitch(), 
-			  			settingsPanel.getRate(), settingsPanel.getAPI(), settingsPanel.getEncryption());
-				System.out.println(settingsPanel.getVolume());
-				doc.createDocumentfromPath();
-				settingsPanel.setDocument(doc);
-				
-				String contents = "";
-				try {
-				      File myObj = new File(filename);
-				      Scanner myReader = new Scanner(myObj);
-				      while (myReader.hasNextLine()) {
-				    	  String data = myReader.nextLine();
-				          contents += data;
-				          contents += "\n";
-				      }
-				      myReader.close();
-				}catch (FileNotFoundException err) {
-					 System.out.println("An error occurred.");
-				     err.printStackTrace();
-				}
-				setPanel(openDocPanel);
-				openDocPanel.setText(contents);
+				Command openDocument = new OpenDocumentCommand(getMe(), startingTextArea.getText(), settingsPanel.getVolume(), 
+															   settingsPanel.getPitch(), settingsPanel.getRate(), 
+															   settingsPanel.getAPI(), settingsPanel.getEncryption());
+				openDocument.execute();
 			}
 		});
-		openDocButton.setBounds(21, 205, 146, 29);
+		openDocButton.setBounds(21, 198, 146, 29);
 		sidePanel.add(openDocButton);
+		
 		
 		/*
 		 *  		EDIT DOCUMENT BUTTON
 		 */
+		
 		JButton editDocButton = new JButton("Edit Document");
 		editDocButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				filename = startingTextArea.getText();
-				
-				// Create the Document
-				doc = new Document(filename, settingsPanel.getVolume(), settingsPanel.getPitch(), 
-			  			settingsPanel.getRate(), settingsPanel.getAPI(), settingsPanel.getEncryption());
-				doc.createDocumentfromPath();
-				settingsPanel.setDocument(doc);
-				
-				String contents = "";
-				try {
-				      File myObj = new File(filename);
-				      Scanner myReader = new Scanner(myObj);
-				      while (myReader.hasNextLine()) {
-				    	  String data = myReader.nextLine();
-				          contents += data;
-				          contents += "\n";
-				      }
-				      myReader.close();
-				}catch (FileNotFoundException err) {
-					 System.out.println("An error occurred.");
-				     err.printStackTrace();
-				}
-				setPanel(editDocPanel);
-				editDocPanel.setText(contents);
+				Command editDocument = new EditDocumentCommand(getMe(), startingTextArea.getText(), settingsPanel.getVolume(), 
+						   settingsPanel.getPitch(), settingsPanel.getRate(), 
+						   settingsPanel.getAPI(), settingsPanel.getEncryption());				
+				editDocument.execute();
 			}
 		});
-		editDocButton.setBounds(21, 246, 136, 29);
+		editDocButton.setBounds(21, 227, 146, 29);
 		sidePanel.add(editDocButton);
 		
+		/*
+		 * 			TITLE LABEL
+		 */
 		titleLabel = new JLabel("TEXT 2 SPEECH");
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		titleLabel.setFont(new Font("Lucida Sans Typewriter", Font.BOLD, 15));
@@ -199,104 +194,152 @@ public class Speech2TextEditorView {
 		titleLabel.setBounds(21, 26, 146, 47);
 		sidePanel.add(titleLabel);
 		
+		/* 
+		 * 			HOME BUTTON
+		 */
+		
 		JButton titleButton = new JButton("Home");
-		titleButton.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+		titleButton.setFont(new Font("Lucida Grande", Font.BOLD, 15));
 		titleButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setPanel(mainPanel);
+				Command homeButtonCommand = new HomeButtonCommand(getMe());
+				homeButtonCommand.execute();
 			}
 		});
-		titleButton.setBounds(21, 97, 117, 29);
+		titleButton.setBounds(21, 85, 117, 41);
 		sidePanel.add(titleButton);
 		
 		/*
 		 *  		SAVE DOCUMENT BUTTON
 		 */
+		
 		saveButton = new JButton("Save Document");
 		saveButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// SAVE BUTTON
-				try {
-				      FileWriter myWriter = new FileWriter(filename);
-				      myWriter.write(editDocPanel.getText());
-				      myWriter.close();
-				      
-				      // Create the new Document
-					  doc = new Document(filename, settingsPanel.getVolume(), settingsPanel.getPitch(), 
-							  			settingsPanel.getRate(), settingsPanel.getAPI(), settingsPanel.getEncryption());
-					  doc.createDocumentfromPath();
-					
-				      System.out.println("Successfully wrote to the file.");
-				} catch (IOException err) {
-					  System.out.println("An error occurred.");
-					  err.printStackTrace();
-				}
+				Command saveDocument = new SaveDocumentCommand(getMe(), startingTextArea.getText(), settingsPanel.getVolume(), 
+						   settingsPanel.getPitch(), settingsPanel.getRate(), 
+						   settingsPanel.getAPI(), settingsPanel.getEncryption());				
+				saveDocument.execute();
 			}
 		});
-		saveButton.setBounds(21, 310, 146, 29);
+		saveButton.setBounds(21, 138, 146, 29);
 		sidePanel.add(saveButton);
 		
+		/*
+		 * 			NEW DOCUMENT BUTTON
+		 */
 		
 		newDocButton = new JButton("New Document");
 		newDocButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-	
-				filename = startingTextArea.getText();
-				try {
-					File myObj = new File(filename);
-				    if (myObj.createNewFile()) {
-				        System.out.println("File created: " + myObj.getName());
-				    } else {
-				        System.out.println("File already exists.");
-				    }
-				} catch (IOException err) {
-				      System.out.println("An error occurred.");
-				      err.printStackTrace();
-			    }
+				Command newDocumentCommand = new NewDocumentCommand(getMe(), startingTextArea.getText());
+				newDocumentCommand.execute();
 			}
 		});
+		newDocButton.setBounds(21, 168, 146, 29);
+		sidePanel.add(newDocButton);
 	
 		
-		JCheckBox encryptedCheckBox = new JCheckBox("Encrypted");
-		encryptedCheckBox.setBounds(21, 392, 128, 23);
+		/*
+		 * 			ENCRYPTED CHECK BOX
+		 */
+		
+		encryptedCheckBox = new JCheckBox("Encrypted");
+		encryptedCheckBox.setBounds(21, 439, 128, 23);
 		sidePanel.add(encryptedCheckBox);
 		
-		newDocButton.setBounds(21, 164, 136, 29);
-		sidePanel.add(newDocButton);
+		
+		/* 
+		 * 			DOC TO SPEECH BUTTON
+		 */
 		
 		JButton doc2SpeechButton = new JButton("Document to speech");
 		doc2SpeechButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(doc != null) {
-					if(encryptedCheckBox.isSelected()) {
-						doc.playEncodedContents();
-					}
-					else {
-						doc.playContents();
-					}
-				}else {
-					System.out.println("An error occurred. There is no document open or in edit.");
-				}
+				Command doc2speech = new Doc2SpeechCommand(getMe());
+				replayList.add(doc2speech);
+				doc2speech.execute();
 			}
 		});
 		doc2SpeechButton.setToolTipText("Start talking");
-		doc2SpeechButton.setBounds(21, 351, 169, 29);
-		
-		
-		
+		doc2SpeechButton.setBounds(21, 268, 169, 41);
 		sidePanel.add(doc2SpeechButton);
 		
-		btnNewButton = new JButton("Settings");
-		btnNewButton.addActionListener(new ActionListener() {
+		
+		/* 
+		 * 			SETTINGS BUTTON
+		 */
+		
+		settingsButton = new JButton("Settings");
+		settingsButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setPanel(settingsPanel);
+				Command settingsButtonCommand = new SettingsButtonCommand(getMe());
+				settingsButtonCommand.execute();
 			}
 		});
-		btnNewButton.setFont(new Font("Lucida Grande", Font.BOLD, 13));
-		btnNewButton.setForeground(Color.DARK_GRAY);
-		btnNewButton.setBackground(Color.WHITE);
-		btnNewButton.setBounds(21, 427, 117, 29);
-		sidePanel.add(btnNewButton);
+		
+		settingsButton.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+		settingsButton.setForeground(Color.DARK_GRAY);
+		settingsButton.setBackground(Color.WHITE);
+		settingsButton.setBounds(21, 461, 117, 29);
+		sidePanel.add(settingsButton);
+		
+		/*
+		 * 			LINE TO SPEECH BUTTON
+		 */
+		JButton line2speechButton = new JButton("Line to speech");
+		line2speechButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Command line2Speech = new Line2SpeechCommand(getMe(), Integer.parseInt(lineField.getText()));
+				replayList.add(line2Speech);
+				line2Speech.execute();
+			}
+		});
+		line2speechButton.setBounds(21, 318, 169, 29);
+		sidePanel.add(line2speechButton);
+		
+		/*
+		 * 			REPLAY BUTTON
+		 */
+		JButton replayButton = new JButton("Replay");
+		replayButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Command replayManager = new ReplayCommand(getMe(), replayList, Integer.parseInt(commandField.getText()));
+				replayManager.execute();
+			}
+		});
+		replayButton.setBounds(21, 387, 117, 23);
+		sidePanel.add(replayButton);
+		
+		/*
+		 * 		DESIGN 
+		 */
+		
+		lineField = new JTextField();
+		lineField.setHorizontalAlignment(SwingConstants.CENTER);
+		lineField.setText("1");
+		lineField.setToolTipText("Which line should be played");
+		lineField.setBounds(145, 355, 45, 26);
+		sidePanel.add(lineField);
+		lineField.setColumns(10);
+		
+		commandField = new JTextField();
+		commandField.setHorizontalAlignment(SwingConstants.CENTER);
+		commandField.setToolTipText("For example: The \"1\"st command");
+		commandField.setText("1");
+		commandField.setBounds(145, 412, 45, 26);
+		sidePanel.add(commandField);
+		commandField.setColumns(10);
+		
+		JLabel lineLabel = new JLabel("Line:");
+		lineLabel.setFont(new Font("Lucida Grande", Font.BOLD | Font.ITALIC, 14));
+		lineLabel.setBounds(31, 359, 82, 16);
+		sidePanel.add(lineLabel);
+		
+		JLabel commandLabel = new JLabel("Command:");
+		commandLabel.setFont(new Font("Lucida Grande", Font.BOLD | Font.ITALIC, 14));
+		commandLabel.setBounds(31, 416, 95, 16);
+		sidePanel.add(commandLabel);
 		mainPanel = new JPanel();
 		mainPanel.setBackground(UIManager.getColor("MenuBar.disabledForeground"));
 		mainPanel.setBounds(214, 65, 522, 437);
@@ -305,15 +348,62 @@ public class Speech2TextEditorView {
 		mainPanel.setVisible(true);
 		
 		
-		
-		
-		
-		
 		startingTextArea.setText("abc.txt");
 		startingTextArea.setBounds(0, 0, 522, 437);
 		mainPanel.add(startingTextArea);		
 		
-		
-		
+	
+	}
+
+	public boolean getEncryptedBoxValue() {
+		return encryptedCheckBox.isSelected();
+	}
+	
+	public String getFilename() {
+		return filename;
+	}
+
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
+
+	public Document getDoc() {
+		return doc;
+	}
+
+	public void setDoc(Document doc) {
+		this.doc = doc;
+	}
+
+	public SettingsPanel getSettingsPanel() {
+		return settingsPanel;
+	}
+
+	public void setSettingsPanel(SettingsPanel settingsPanel) {
+		this.settingsPanel = settingsPanel;
+	}
+
+	public JPanel getMainPanel() {
+		return mainPanel;
+	}
+
+	public void setMainPanel(JPanel mainPanel) {
+		this.mainPanel = mainPanel;
+	}
+
+	public OpenDocPanel getOpenDocPanel() {
+		return openDocPanel;
+	}
+
+	public void setOpenDocPanel(OpenDocPanel openDocPanel) {
+		this.openDocPanel = openDocPanel;
+	}
+
+	public EditDocPanel getEditDocPanel() {
+		return editDocPanel;
+	}
+
+	public void setEditDocPanel(EditDocPanel editDocPanel) {
+		this.editDocPanel = editDocPanel;
 	}
 }

@@ -1,11 +1,10 @@
 package Control;
 // implementing AtBash cipher where A becomes Z, B becomes Y etc
 public class AtBashEncoding extends TemplateEncoding {
-	public String encode(String str) {
+	
+	public String encodeString(String str) {
 		String allchar = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	    
-	    str=str.replaceAll(" ", "");
-	    str=str.toUpperCase();
 	    int len= str.length();
 	    int len1 = allchar.length();
 	    String encodedStr="";
@@ -25,3 +24,4 @@ public class AtBashEncoding extends TemplateEncoding {
 	    return(encodedStr);
 	}
 }
+ 

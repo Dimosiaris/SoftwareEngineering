@@ -1,0 +1,407 @@
+package View;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import java.awt.Font;
+import javax.swing.SwingConstants;
+import javax.swing.JTextField;
+import javax.crypto.EncryptedPrivateKeyInfo;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
+import java.awt.event.ActionEvent;
+import javax.swing.JTextPane;
+import java.awt.TextArea;
+import java.awt.Color;
+import javax.swing.JRadioButton;
+import java.awt.Panel;
+import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.JTextArea;
+import javax.swing.border.TitledBorder;
+
+import Control.Command;
+import Control.Doc2SpeechCommand;
+import Control.EditDocumentCommand;
+import Control.HomeButtonCommand;
+import Control.NewDocumentCommand;
+import Control.OpenDocumentCommand;
+import Control.SaveDocumentCommand;
+import Control.SettingsButtonCommand;
+import Model.Document;
+import java.awt.SystemColor;
+
+public class Speech2TextEditorView {
+
+	private JFrame frame;	
+	
+	// The Panels
+	private JPanel 				sidePanel;
+	private JPanel				mainPanel;
+	private SettingsPanel 		settingsPanel;
+	private OpenDocPanel 		openDocPanel;
+	private JLabel 				titleLabel;
+	private EditDocPanel 		editDocPanel;
+	private JButton 			saveButton;
+	private JButton 			newDocButton;
+	private JCheckBox 			encryptedCheckBox;
+	
+	// The filename we're working on
+	private String 				filename;
+	private Document 			doc;
+	private JButton 			settingsButton;
+	
+	private ArrayList<Command>  replayList = new ArrayList<Command>();
+	private JTextField lineField;
+	private JTextField commandField;
+	
+	/**
+	 * Launch the application.
+	 */
+	
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Speech2TextEditorView window = new Speech2TextEditorView();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	
+	public Speech2TextEditorView() {
+		initialize();
+	}
+
+	/*
+	 * Function that helps us change between panels
+	 */
+	
+	public void setPanel(JPanel panel) {
+		mainPanel.setVisible(false);
+		openDocPanel.setVisible(false);
+		editDocPanel.setVisible(false);
+		settingsPanel.setVisible(false);
+		
+		panel.setVisible(true);
+		System.out.println("DID IT");
+	}
+	
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	
+	public Speech2TextEditorView getMe() {
+		return this;
+	}
+	
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 758, 530);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		
+		/*
+		 * 		Panels Initialization
+		 */
+		
+		openDocPanel = new OpenDocPanel();
+		openDocPanel.setBounds(214, 6, 522, 496);
+		openDocPanel.setVisible(false);
+		frame.getContentPane().add(openDocPanel);
+		
+		editDocPanel = new EditDocPanel();
+		editDocPanel.setBounds(214, 6, 522, 496);
+		editDocPanel.setVisible(false);
+		frame.getContentPane().add(editDocPanel);
+		
+		settingsPanel = new SettingsPanel();
+		settingsPanel.setBounds(214, 6, 522, 496);
+		settingsPanel.setVisible(false);
+		frame.getContentPane().add(settingsPanel);
+		
+		sidePanel = new JPanel();
+		sidePanel.setBackground(new Color(0, 128, 128));
+		sidePanel.setBounds(6, 6, 196, 496);
+		frame.getContentPane().add(sidePanel);
+		sidePanel.setLayout(null);
+		
+		TextArea startingTextArea = new TextArea();
+		
+/*
+ * ==============================================================================================================================================================================================================
+ * ==============================================================================================================================================================================================================
+ * ==============================================================================================================================================================================================================
+ */
+		/*
+		 *  		OPEN DOCUMENT BUTTON
+		 */
+		
+		JButton openDocButton = new JButton("Open Document");
+		openDocButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Command openDocument = new OpenDocumentCommand(getMe(), startingTextArea.getText(), settingsPanel.getVolume(), 
+															   settingsPanel.getPitch(), settingsPanel.getRate(), 
+															   settingsPanel.getAPI(), settingsPanel.getEncryption());
+				openDocument.execute();
+			}
+		});
+		openDocButton.setBounds(21, 198, 146, 29);
+		sidePanel.add(openDocButton);
+		
+		
+		/*
+		 *  		EDIT DOCUMENT BUTTON
+		 */
+		
+		JButton editDocButton = new JButton("Edit Document");
+		editDocButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Command editDocument = new EditDocumentCommand(getMe(), startingTextArea.getText(), settingsPanel.getVolume(), 
+						   settingsPanel.getPitch(), settingsPanel.getRate(), 
+						   settingsPanel.getAPI(), settingsPanel.getEncryption());				
+				editDocument.execute();
+			}
+		});
+		editDocButton.setBounds(21, 227, 146, 29);
+		sidePanel.add(editDocButton);
+		
+		/*
+		 * 			TITLE LABEL
+		 */
+		titleLabel = new JLabel("TEXT 2 SPEECH");
+		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		titleLabel.setFont(new Font("Lucida Sans Typewriter", Font.BOLD, 15));
+		titleLabel.setForeground(new Color(255, 255, 240));
+		titleLabel.setBounds(21, 26, 146, 47);
+		sidePanel.add(titleLabel);
+		
+		/* 
+		 * 			HOME BUTTON
+		 */
+		
+		JButton titleButton = new JButton("Home");
+		titleButton.setFont(new Font("Lucida Grande", Font.BOLD, 15));
+		titleButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Command homeButtonCommand = new HomeButtonCommand(getMe());
+				homeButtonCommand.execute();
+			}
+		});
+		titleButton.setBounds(21, 85, 117, 41);
+		sidePanel.add(titleButton);
+		
+		/*
+		 *  		SAVE DOCUMENT BUTTON
+		 */
+		
+		saveButton = new JButton("Save Document");
+		saveButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Command saveDocument = new SaveDocumentCommand(getMe(), startingTextArea.getText(), settingsPanel.getVolume(), 
+						   settingsPanel.getPitch(), settingsPanel.getRate(), 
+						   settingsPanel.getAPI(), settingsPanel.getEncryption());				
+				saveDocument.execute();
+			}
+		});
+		saveButton.setBounds(21, 138, 146, 29);
+		sidePanel.add(saveButton);
+		
+		/*
+		 * 			NEW DOCUMENT BUTTON
+		 */
+		
+		newDocButton = new JButton("New Document");
+		newDocButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Command newDocumentCommand = new NewDocumentCommand(getMe(), startingTextArea.getText());
+				newDocumentCommand.execute();
+			}
+		});
+		newDocButton.setBounds(21, 168, 146, 29);
+		sidePanel.add(newDocButton);
+	
+		
+		/*
+		 * 			ENCRYPTED CHECK BOX
+		 */
+		
+		encryptedCheckBox = new JCheckBox("Encrypted");
+		encryptedCheckBox.setBounds(21, 439, 128, 23);
+		sidePanel.add(encryptedCheckBox);
+		
+		
+		/* 
+		 * 			DOC TO SPEECH BUTTON
+		 */
+		
+		JButton doc2SpeechButton = new JButton("Document to speech");
+		doc2SpeechButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Command doc2speech = new Doc2SpeechCommand(getMe());
+				replayList.add(doc2speech);
+				doc2speech.execute();
+			}
+		});
+		doc2SpeechButton.setToolTipText("Start talking");
+		doc2SpeechButton.setBounds(21, 268, 169, 41);
+		sidePanel.add(doc2SpeechButton);
+		
+		
+		/* 
+		 * 			SETTINGS BUTTON
+		 */
+		
+		settingsButton = new JButton("Settings");
+		settingsButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Command settingsButtonCommand = new SettingsButtonCommand(getMe());
+				settingsButtonCommand.execute();
+			}
+		});
+		
+		settingsButton.setFont(new Font("Lucida Grande", Font.BOLD, 13));
+		settingsButton.setForeground(Color.DARK_GRAY);
+		settingsButton.setBackground(Color.WHITE);
+		settingsButton.setBounds(21, 461, 117, 29);
+		sidePanel.add(settingsButton);
+		
+		/*
+		 * 			LINE TO SPEECH BUTTON
+		 */
+		JButton line2speechButton = new JButton("Line to speech");
+		line2speechButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Command line2Speech = new Line2SpeechCommand(getMe(), Integer.parseInt(lineField.getText()));
+			}
+		});
+		line2speechButton.setBounds(21, 318, 169, 29);
+		sidePanel.add(line2speechButton);
+		
+		/*
+		 * 			REPLAY BUTTON
+		 */
+		JButton replayButton = new JButton("Replay");
+		replayButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				/*
+				 *  THE REPLAY COMMAND
+				 *  commandField
+				 */
+			}
+		});
+		replayButton.setBounds(21, 387, 117, 23);
+		sidePanel.add(replayButton);
+		
+		/*
+		 * 		DESIGN 
+		 */
+		
+		lineField = new JTextField();
+		lineField.setHorizontalAlignment(SwingConstants.CENTER);
+		lineField.setText("1");
+		lineField.setToolTipText("Which line should be played");
+		lineField.setBounds(145, 355, 45, 26);
+		sidePanel.add(lineField);
+		lineField.setColumns(10);
+		
+		commandField = new JTextField();
+		commandField.setHorizontalAlignment(SwingConstants.CENTER);
+		commandField.setToolTipText("For example: The \"1\"st command");
+		commandField.setText("1");
+		commandField.setBounds(145, 412, 45, 26);
+		sidePanel.add(commandField);
+		commandField.setColumns(10);
+		
+		JLabel lineLabel = new JLabel("Line:");
+		lineLabel.setFont(new Font("Lucida Grande", Font.BOLD | Font.ITALIC, 14));
+		lineLabel.setBounds(31, 359, 82, 16);
+		sidePanel.add(lineLabel);
+		
+		JLabel commandLabel = new JLabel("Command:");
+		commandLabel.setFont(new Font("Lucida Grande", Font.BOLD | Font.ITALIC, 14));
+		commandLabel.setBounds(31, 416, 95, 16);
+		sidePanel.add(commandLabel);
+		mainPanel = new JPanel();
+		mainPanel.setBackground(UIManager.getColor("MenuBar.disabledForeground"));
+		mainPanel.setBounds(214, 65, 522, 437);
+		frame.getContentPane().add(mainPanel);
+		mainPanel.setLayout(null);
+		mainPanel.setVisible(true);
+		
+		
+		startingTextArea.setText("abc.txt");
+		startingTextArea.setBounds(0, 0, 522, 437);
+		mainPanel.add(startingTextArea);		
+		
+	
+	}
+
+	public boolean getEncryptedBoxValue() {
+		return encryptedCheckBox.isSelected();
+	}
+	
+	public String getFilename() {
+		return filename;
+	}
+
+	public void setFilename(String filename) {
+		this.filename = filename;
+	}
+
+	public Document getDoc() {
+		return doc;
+	}
+
+	public void setDoc(Document doc) {
+		this.doc = doc;
+	}
+
+	public SettingsPanel getSettingsPanel() {
+		return settingsPanel;
+	}
+
+	public void setSettingsPanel(SettingsPanel settingsPanel) {
+		this.settingsPanel = settingsPanel;
+	}
+
+	public JPanel getMainPanel() {
+		return mainPanel;
+	}
+
+	public void setMainPanel(JPanel mainPanel) {
+		this.mainPanel = mainPanel;
+	}
+
+	public OpenDocPanel getOpenDocPanel() {
+		return openDocPanel;
+	}
+
+	public void setOpenDocPanel(OpenDocPanel openDocPanel) {
+		this.openDocPanel = openDocPanel;
+	}
+
+	public EditDocPanel getEditDocPanel() {
+		return editDocPanel;
+	}
+
+	public void setEditDocPanel(EditDocPanel editDocPanel) {
+		this.editDocPanel = editDocPanel;
+	}
+}

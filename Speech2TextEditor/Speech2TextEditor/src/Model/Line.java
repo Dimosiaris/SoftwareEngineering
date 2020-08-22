@@ -60,17 +60,22 @@ public class Line {
 	}
 	
 	// Encode the line
-	public void encodeLine(String encryption) {
+	public String encodeLine(String encryption) {
 		// Create the factory
 		StrategiesFactory factory = new StrategiesFactory();
 		EncodingStrategy encodingStrategy = factory.createStrategy(encryption);
 		
 		// The encoding of the line
-		encodedLine = encodingStrategy.encode(line);
+		encodedLine = encodingStrategy.encode(line, encryption);
 		String s[] = encodedLine.split("\\s+");
 		for(String i : s) {
 			encodedWords.add(i);
 		}
+		String line = "";
+		for(String word : encodedWords) {
+			line += word;
+		}
+		return line;
 	}
 	
 	// Get the encoded line

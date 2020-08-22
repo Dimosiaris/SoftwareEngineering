@@ -1,0 +1,11 @@
+package Control;
+
+public abstract class TemplateEncoding implements EncodingStrategy{
+	public abstract encodeString(String str);
+	public  String encode(String str, int option) {
+		str=str.replaceAll(" ", "");
+		str=str.toUpperCase();
+		if
+}
+	}
+	

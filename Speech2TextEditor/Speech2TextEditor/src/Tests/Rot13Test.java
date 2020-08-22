@@ -11,7 +11,7 @@ public class Rot13Test {
 	@Test
 	public void encodeTest() {
 		Rot13Encoding test = new Rot13Encoding();
-		String output = test.encode("FOR");
+		String output = test.encode("FOR", "Rot13");
 		System.out.println(output);
 		assertEquals("SBE\n",output);
 		

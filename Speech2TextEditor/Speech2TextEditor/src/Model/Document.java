@@ -51,7 +51,7 @@ public class Document {
 	} 
 	
 	public void playReversedContents(String API) {
-		// Play the whole document, every line in the document
+		// Play the whole document reversed, every line in the document
 		for(int i = contents.size() - 1; i >= 0; i--) {
 			contents.get(i).playReversedLine(API, volume, pitch, rate);
 		}
@@ -72,27 +72,45 @@ public class Document {
 	
 	public void playEncodedContents() {
 		encodeContents();
-		// Play the whole document, every line in the document
+		// Play the whole encoded document, every line in the document
 		for(Line line : contents) {
 			line.playEncodedLine(this.API, volume, pitch, rate);
 		}
 	}
 	
-	public void playLine(int i) {
-		// Play the whole document, every line in the document
-		contents.get(i).playLine(this.API, volume, pitch, rate);
-		
-	}
-	
 	public String playFake() {
-		// Play the whole document, every line in the document
+		// Fake-Play the whole document, every line in the document
 		String fakeContents = "";
 		for(Line line : contents) {
 			fakeContents += line.playFakeLine(volume, pitch, rate);
 		}
 		return fakeContents;
 	}
+	
+	public void playLine(int i) {
+		// Play a specific line i of the document
+		if(i <= contents.size()) {
+			System.out.println(contents.get(i-1));
+			contents.get(i-1).playLine(this.API, volume, pitch, rate);
+		}
+	}
+	
+	public void encodeLine(int i) {
+		contents.get(i).encodeLine(encryption);
+	}
+	
+	public void playEncodedLine(int i) {
+		encodeContents();
+		// Play encoded line
+		contents.get(i).playEncodedLine(this.API, volume, pitch, rate);
+	}
+	
+	public String playFakeLine(int i) {
+		// Fake-Play the whole document, every line in the document
+		return contents.get(i).playFakeLine(volume, pitch, rate);
+	}
 
+	
 	/*
 	 *  		SETTERS AND GETTERS
 	 */

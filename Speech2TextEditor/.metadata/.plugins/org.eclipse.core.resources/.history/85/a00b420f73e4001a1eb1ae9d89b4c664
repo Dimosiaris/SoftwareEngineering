@@ -1,0 +1,24 @@
+package Control;
+
+import java.util.ArrayList;
+
+import View.Speech2TextEditorView;
+
+public class ReplayCommand implements Command {
+	
+	Speech2TextEditorView 			gui;
+	private ArrayList<Command>  	replayList;
+	int								commandNum;
+	
+	public ReplayCommand(Speech2TextEditorView gui, ArrayList<Command>  replayList, int commandNum) {
+		this.gui 			= gui;
+		this.replayList		= replayList;
+		this.commandNum		= commandNum;
+	}
+	
+	public void execute() {
+		System.out.println(replayList);
+		replayList.get(commandNum).execute();
+	}
+
+}
